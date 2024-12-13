@@ -60,7 +60,6 @@ const AddContentDialog: React.FC<AddContentDialogProps> = ({ trigger }) => {
         setOpen(false); // Close the dialog
       }
     } catch (error) {
-      console.error(error);
       toast.error("Failed to add content.");
     }
   };
