@@ -33,7 +33,7 @@ return isLoggedin ? <Navigate to="/home"/>:element
   return (
   <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
    <BrowserRouter>
-   <Toaster richColors/>
+   <Toaster />
    <Routes>
     <Route path='/' element={<PublicRoute element={<Lockdata/>}/>}/>
     <Route path='/signup' element={<PublicRoute element={<Signup/>}/>}/>

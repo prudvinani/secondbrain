@@ -7,7 +7,7 @@ const Lockdata = () => {
     <div >
         <p className="text-end p-5"><ModeToggle/></p>
 <div className="flex flex-col justify-center items-center pt-72 md:pt-56 ">
-<p className=" text-xl md:text-3xl tracking-tighter font-semibold">Welcome to SecondBrain 🧠</p>
+<p className=" text-xl md:text-3xl tracking-tighter font-semibold">Welcome to SecondBrain 🧠📝</p>
 <p className="  md:text-3xl tracking-tighter  text-center px-10 pt-2 text-sm">Share your entire collection of notes, documents, tweets, and videos with others.</p>
 <div className="flex pt-4 ">
 <p className="mr-4">   

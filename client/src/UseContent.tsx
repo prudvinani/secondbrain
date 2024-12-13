@@ -25,7 +25,6 @@ export const useContent = () => {
       setContent(response.data.message);
     } catch (error: any) {
       console.error("Error fetching todos:", error);
-      toast.error(error.response?.data?.message || "An error occurred while fetching todos.");
     }
   };
 
