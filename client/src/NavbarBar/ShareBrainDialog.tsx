@@ -1,94 +1,111 @@
-import React, { useState } from "react";
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogFooter,
-  AlertDialogAction,
-  AlertDialogCancel,
-} from "../components/ui/alert-dialog";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import { toast } from "sonner";
-import { FaPaste } from "react-icons/fa6";
-import { QRCodeCanvas } from "qrcode.react";
-import { generateShareLink } from "../Cards/GenerateShareLink"; // Ensure this function generates a valid share link
-import { useNavigate } from "react-router-dom";
-import { Button } from "../components/ui/button";
 
-interface Props {
-  trigger?: React.ReactNode;
+interface Tag {
+  _id: string;
+  name?: string; // If the Tag model has a `name` field
 }
 
-const ShareBrainDialog: React.FC<Props> = ({ trigger }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [shareLink, setShareLink] = useState<string>(""); 
-  const navigate = useNavigate();
+interface Content {
+  title: string;
+  link: string;
+  type: string;
+  tags: Tag[];
+}
 
-  const handleGenerateLink = () => {
-    const newLink = generateShareLink(); // This should return a unique identifier for sharing
-    setShareLink(newLink);
-  };
+interface UserData {
+  email: string;
+  content: Content[];
+}
 
-  const handleShare = () => {
-    const fullShareLink = `https://secondbrain-blue.vercel.app/brain/${shareLink}`;
-    navigator.clipboard.writeText(fullShareLink).then(() => {
-      toast.success("ShareBrain code copied to clipboard!");
-    });
+const SharedBrain: React.FC = () => {
+  const { shareLink } = useParams<{ shareLink: string }>();
+  const [data, setData] = useState<UserData | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-    navigate(fullShareLink); // Navigate to the shared link
-  };
+  useEffect(() => {
+    const fetchSharedData = async () => {
+      try {
+        if (!shareLink) {
+          setError("Invalid share link.");
+          setIsLoading(false);
+          return;
+        }
+
+        const response = await axios.get(
+          `https://secondbrain-blue.vercel.app/brain/${shareLink}`
+        );
+
+        setData(response.data);
+        setIsLoading(false);
+        toast.success("Shared data loaded successfully!");
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load shared content. Please check the link.");
+        setIsLoading(false);
+      }
+    };
+
+    fetchSharedData();
+  }, [shareLink]);
+
+  if (isLoading) {
+    return <div className="text-center mt-8">Loading shared content...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center text-red-600 mt-8">{error}</div>;
+  }
 
   return (
-    <>
-      {trigger ? (
-        React.cloneElement(trigger as React.ReactElement, {
-          onClick: () => {
-            setIsOpen(true);
-            handleGenerateLink();
-          },
-        })
-      ) : (
-        <Button
-          variant="default"
-          onClick={() => {
-            setIsOpen(true);
-            handleGenerateLink();
-          }}
-        >
-          Share Brain
-        </Button>
-      )}
-
-      <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-        <AlertDialogContent className="w-[370px] md:w-[550px]">
-          <AlertDialogHeader>
-            <h3 className="font-semibold">Share Your Second Brain</h3>
-            <p>
-              Share your entire collection of notes, documents, tweets, and videos with others.
-            </p>
-          </AlertDialogHeader>
-          {shareLink && (
-            <div className="flex flex-col items-center mt-4">
-              <QRCodeCanvas value={`https://secondbrain-blue.vercel.app/brain/${shareLink}`} size={150} />
-              <p className="text-sm mt-2">Scan this QR code to access the shared content.</p>
-            </div>
-          )}
-          <div className="flex items-center justify-center">
-            <AlertDialogFooter>
-              <AlertDialogAction onClick={handleShare} className="mt-2 md:mt-0">
-                <FaPaste /> Copy ShareBrain Link
-              </AlertDialogAction>
-              <AlertDialogCancel
-                onClick={() => setIsOpen(false)}
-                className="pt-2"
+    <div className="max-w-4xl mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Shared Brain Content</h1>
+      {data && (
+        <div>
+          <h2 className="text-lg font-semibold mb-2">Shared by: {data.email}</h2>
+          <ul className="space-y-4">
+            {data.content.map((item, index) => (
+              <li
+                key={index}
+                className="p-4 border border-gray-300 rounded-lg shadow-sm"
               >
-                Cancel
-              </AlertDialogCancel>
-            </AlertDialogFooter>
-          </div>
-        </AlertDialogContent>
-      </AlertDialog>
-    </>
+                <h3 className="text-md font-bold">{item.title}</h3>
+                <p className="text-sm text-gray-600">Type: {item.type}</p>
+                {item.link && (
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:underline"
+                  >
+                    Open Link
+                  </a>
+                )}
+                {item.tags.length > 0 && (
+                  <div className="mt-2">
+                    <h4 className="text-sm font-semibold">Tags:</h4>
+                    <ul className="flex flex-wrap gap-2">
+                      {item.tags.map((tag) => (
+                        <li
+                          key={tag._id}
+                          className="px-2 py-1 bg-gray-200 rounded-md text-xs"
+                        >
+                          {tag.name || "Untitled Tag"}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
   );
 };
 
-export default ShareBrainDialog;
+export default SharedBrain;
