@@ -33,7 +33,7 @@ const ShareBrainDialog: React.FC<Props> = ({ trigger }) => {
       toast.success("ShareBrain code copied to clipboard!");
     });
 
-    navigate(`https://secondbrain-blue.vercel.app/brain/${shareLink}`);
+    navigate(`/brain/${shareLink}`);
   };
 
   return (
@@ -69,7 +69,7 @@ const ShareBrainDialog: React.FC<Props> = ({ trigger }) => {
           </AlertDialogHeader>
           {shareLink && (
             <div className="flex flex-col items-center mt-4">
-              <QRCodeCanvas value={`https://secondbrain-blue.vercel.app/brain/${shareLink}`} size={150} /> 
+              <QRCodeCanvas value={`https://secondbrain-blue.vercel.app/brain/${shareLink}`} size={150} /> {/* QR Code Display */}
               <p className="text-sm mt-2">Scan this QR code to access the shared content.</p>
             </div>
           )}
