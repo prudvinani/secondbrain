@@ -13,8 +13,12 @@ import { random } from "./utils"
 import cors from "cors"
 
 const app=express()
+app.use(express.static("public")); 
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    credentials:true
+}))
+app.use(express.urlencoded({ extended: true }));
 
 
 
@@ -201,42 +205,49 @@ app.post("/brain/share", AuthMiddleware, async (req:AuthenticatedRequest, res) =
     }
 })
 
-app.get("brain/:shareLink", async (req, res) => {
+app.get("/brain/:shareLink", async (req, res) => {
     const hash = req.params.shareLink;
+    console.log("Route hit with shareLink:", req.params.shareLink);
 
+    // Look for the link with the given hash
     const link = await LinkModel.findOne({
         hash
     });
 
     if (!link) {
-        res.status(411).json({
-            message: "Sorry incorrect input"
-        })
+        res.status(400).json({
+            message: "Sorry, incorrect input"
+        });
         return;
     }
-    // userId
+
+    // Fetch content for the user associated with the link
     const content = await ContentModel.find({
         userId: link.userId
-    })
+    });
 
     console.log(link);
+
+    // Find the user associated with the link
     const user = await UserModel.findOne({
         _id: link.userId
-    })
+    });
 
     if (!user) {
-        res.status(411).json({
-            message: "user not found, error should ideally not happen"
-        })
+        res.status(404).json({
+            message: "User not found, this error should ideally not happen"
+        });
         return;
     }
 
+    // Send the response with user email and their content
+    console.log(content)
     res.json({
         email: user.email,
         content: content
-    })
+    });
+});
 
-})
 app.listen(process.env.PORT || 3000,()=>{
     console.log("the server is started")
 })
