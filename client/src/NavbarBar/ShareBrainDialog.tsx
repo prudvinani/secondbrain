@@ -10,7 +10,7 @@ import {
 import { toast } from "sonner";
 import { FaPaste } from "react-icons/fa6";
 import { QRCodeCanvas } from "qrcode.react";
-import { generateShareLink } from "../Cards/GenerateShareLink";
+import { generateShareLink } from "../Cards/GenerateShareLink"; // Ensure this function generates a valid share link
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 
@@ -24,21 +24,21 @@ const ShareBrainDialog: React.FC<Props> = ({ trigger }) => {
   const navigate = useNavigate();
 
   const handleGenerateLink = () => {
-    const newLink = generateShareLink();
+    const newLink = generateShareLink(); // This should return a unique identifier for sharing
     setShareLink(newLink);
   };
 
   const handleShare = () => {
-    navigator.clipboard.writeText(shareLink).then(() => {
+    const fullShareLink = `https://secondbrain-blue.vercel.app/brain/${shareLink}`;
+    navigator.clipboard.writeText(fullShareLink).then(() => {
       toast.success("ShareBrain code copied to clipboard!");
     });
 
-    navigate(`/brain/${shareLink}`);
+    navigate(fullShareLink); // Navigate to the shared link
   };
 
   return (
     <>
-
       {trigger ? (
         React.cloneElement(trigger as React.ReactElement, {
           onClick: () => {
@@ -63,20 +63,19 @@ const ShareBrainDialog: React.FC<Props> = ({ trigger }) => {
           <AlertDialogHeader>
             <h3 className="font-semibold">Share Your Second Brain</h3>
             <p>
-              Share your entire collection of notes, documents, tweets, and
-              videos with others.
+              Share your entire collection of notes, documents, tweets, and videos with others.
             </p>
           </AlertDialogHeader>
           {shareLink && (
             <div className="flex flex-col items-center mt-4">
-              <QRCodeCanvas value={shareLink} size={150} /> {/* QR Code Display */}
+              <QRCodeCanvas value={`https://secondbrain-blue.vercel.app/brain/${shareLink}`} size={150} />
               <p className="text-sm mt-2">Scan this QR code to access the shared content.</p>
             </div>
           )}
           <div className="flex items-center justify-center">
             <AlertDialogFooter>
-              <AlertDialogAction onClick={handleShare} className="mt-2 md:mt-0" >
-                <FaPaste /> Copy ShareBrain {shareLink}
+              <AlertDialogAction onClick={handleShare} className="mt-2 md:mt-0">
+                <FaPaste /> Copy ShareBrain Link
               </AlertDialogAction>
               <AlertDialogCancel
                 onClick={() => setIsOpen(false)}
