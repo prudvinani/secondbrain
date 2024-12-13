@@ -1,0 +1,36 @@
+import { NextFunction, Request, Response } from "express";
+import jwt, { JwtPayload } from 'jsonwebtoken';
+
+interface AuthMiddleRequest extends Request {
+    userId?: string;
+}
+
+export const AuthMiddleware = async (req: AuthMiddleRequest, res: Response, next: NextFunction): Promise<any> => {
+    try {
+        const authHeader = req.headers['authorization'];
+        if (!authHeader) {
+            return res.status(401).json({ success: false, message: "Authorization header is missing" });
+        }
+
+        // Correctly split the header to get the token
+        const token = authHeader.split(" ")[1];
+        if (!token) {
+            return res.status(401).json({ success: false, message: "No token provided" });
+        }
+
+        // Ensure that JWTPASSWORD is defined
+        const jwtPassword = process.env.JWTPASSWORD;
+        if (!jwtPassword) {
+            throw new Error("JWT password is not defined");
+        }
+
+        const decoded = jwt.verify(token, jwtPassword) as JwtPayload;
+        req.userId = decoded.id;
+        next();
+    } catch (err: any) {
+        if (err.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Token expired, please login again' });
+        }
+        return res.status(401).json({ success: false, message: "Invalid token" });
+    }
+};
