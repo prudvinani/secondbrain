@@ -19,9 +19,12 @@ export function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_BACKENDURL}/signin`,
@@ -41,6 +44,8 @@ export function LoginPage() {
     } catch (error) {
       console.log("sign in error", error);
       toast.error("An unexpected error occurred");
+    }finally {
+      setLoading(false); 
     }
   };
 
@@ -82,7 +87,7 @@ export function LoginPage() {
               </div>
             </div>
             <Button className="w-full mt-3" type="submit" >
-              Login
+              {loading ? "Logging in...":"Login"}
             </Button>
           </form>
         </CardContent>
