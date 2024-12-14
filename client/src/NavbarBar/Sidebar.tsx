@@ -16,7 +16,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen }) => {
     className={`${
       isOpen ? "block" : "hidden"
     } duration-300 ease-out fixed shadow-xl md:block h-full top-[70px] md:top-[80px] z-50 ${
-      theme === "dark" ? "bg-black transition-colors" : "bg-white transition-colors"
+      theme === "dark" ? "bg-black " : "bg-white "
     }`}
   >
   

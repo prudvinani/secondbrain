@@ -207,7 +207,6 @@ app.post("/brain/share", AuthMiddleware, async (req:AuthenticatedRequest, res) =
 
 app.get("/brain/:shareLink", async (req, res) => {
     const hash = req.params.shareLink;
-    console.log("Route hit with shareLink:", req.params.shareLink);
 
     // Look for the link with the given hash
     const link = await LinkModel.findOne({
@@ -241,7 +240,7 @@ app.get("/brain/:shareLink", async (req, res) => {
     }
 
     // Send the response with user email and their content
-    console.log(content)
+    
     res.json({
         email: user.email,
         content: content

@@ -7,10 +7,12 @@ import Sidebar from "../NavbarBar/Sidebar";
 import { useContent } from "../UseContent";
 import { Link } from "react-router-dom";
 import { CardArticle } from "../Cards/CardArticle";
+import { useTheme } from "../theme-provider";
 
 export const Article:React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { content, deleteContent } = useContent();
+  const {theme}=useTheme()
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -21,8 +23,7 @@ export const Article:React.FC = () => {
 
   return (
     <div className="w-full h-screen">
-      <div className="flex justify-between p-5 shadow-md fixed w-full z-10">
-        {/* Logo and Menu */}
+      <div className={`flex justify-between p-5 shadow-md fixed w-full z-10 ${theme === "dark" ? "bg-black text-white":"bg-white text-black" }`}>
         <div className="flex items-center">
           <MdOutlineMenu
             size={23}
@@ -37,7 +38,6 @@ export const Article:React.FC = () => {
           </Link>
         </div>
 
-        {/* Menus */}
         <div className="hidden md:block">
           <HeaderDesktopMenu onLogout={handleLogout} />
         </div>
@@ -46,11 +46,9 @@ export const Article:React.FC = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="flex">
         <Sidebar isOpen={isSidebarOpen} />
         <div className="flex-grow">
-          {/* data fetching from database */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:pl-[250px] md:pt-24 px-5 pt-32">
             {LinkContent.map((item) => (
               <CardArticle

@@ -7,10 +7,12 @@ import Sidebar from "../NavbarBar/Sidebar";
 import { useContent } from "../UseContent";
 import { Link } from "react-router-dom";
 import { CardNotes } from "../Cards/CardNotes";
+import { useTheme } from "../theme-provider";
 
 export const Notes:React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { content, deleteContent } = useContent();
+  const {theme}=useTheme()
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -21,7 +23,7 @@ export const Notes:React.FC = () => {
 
   return (
     <div className="w-full h-screen">
-      <div className="flex justify-between p-5 shadow-md fixed w-full z-10">
+      <div className={`flex justify-between p-5 shadow-md fixed w-full z-10 ${theme === "dark" ? "bg-black text-white":"bg-white text-black" }`}>
         <div className="flex items-center">
           <MdOutlineMenu
             size={23}

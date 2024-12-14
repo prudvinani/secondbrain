@@ -7,10 +7,12 @@ import Sidebar from "../NavbarBar/Sidebar";
 import { useContent } from "../UseContent";
 import { Link } from "react-router-dom";
 import { CardYoutube } from "../Cards/CardYoutube";
+import { useTheme } from "../theme-provider";
 
 const Tweets = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { content, deleteContent } = useContent();
+  const {theme}=useTheme()
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -21,10 +23,10 @@ const Tweets = () => {
   const YoutubeContent = content.filter((item) => item.type === "youtube");
 
   return (
+    // className="w-full h-screen"
     <div className="w-full h-screen">
-      {/* Header */}
-      <div className="flex justify-between p-5 shadow-md fixed w-full z-10">
-        {/* Logo and Menu */}
+      <div className={`flex justify-between p-5 shadow-md fixed w-full z-10 ${theme === "dark" ? "bg-black text-white":"bg-white text-black" }`}>
+    
         <div className="flex items-center">
           <MdOutlineMenu
             size={23}

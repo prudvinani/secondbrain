@@ -7,10 +7,12 @@ import Sidebar from "../NavbarBar/Sidebar";
 import { CardTwitter } from "../Cards/CardTwitter";
 import { useContent } from "../UseContent";
 import { Link } from "react-router-dom";
+import { useTheme } from "../theme-provider";
 
 const Tweets = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { content, deleteContent } = useContent();
+  const {theme}=useTheme()
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -21,7 +23,7 @@ const Tweets = () => {
 
   return (
     <div className="w-full h-screen">
-      <div className="flex justify-between p-5 shadow-md fixed w-full z-10">
+      <div className={`flex justify-between p-5 shadow-md fixed w-full z-10 ${theme === "dark" ? "bg-black text-white":"bg-white text-black" }`}>
      
         <div className="flex items-center">
           <MdOutlineMenu
