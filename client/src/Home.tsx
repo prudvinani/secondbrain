@@ -1,8 +1,10 @@
-import { MainHeader } from "./NavbarBar/MainHeader"
+import { SidebarDemo } from "./NavbarBar/MainContent";
 
-const Home=()=>{
-  return<div>
-  <MainHeader/>
-  </div>
-}
-export default Home
+const Home = () => {
+  return (
+    <div>
+      <SidebarDemo />
+    </div>
+  );
+};
+export default Home;

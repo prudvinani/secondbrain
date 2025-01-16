@@ -1,10 +1,17 @@
 import React, { useEffect } from "react";
 import { MdDelete } from "react-icons/md";
+import deletebutton from "../public/delete.png"
 import { IoMdShareAlt } from "react-icons/io";
+import { TbMessage2Share } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import axios from "axios";
 
+import { FaTwitter } from "react-icons/fa";
+import { FaYoutube } from "react-icons/fa";
+import { MdArticle } from "react-icons/md";
+import { FaNoteSticky } from "react-icons/fa6";
+import { FaLink } from "react-icons/fa";
 interface CardProps {
   title: string;
   link: string;
@@ -57,21 +64,26 @@ export const Card: React.FC<CardProps> = ({ title, link, type, id, onDelete }) =
   return (
     <div className="p-4 rounded-lg border shadow-lg max-w-md md:max-w-lg lg:max-w-xl  mb-6 transition-transform transform ">
     <div className="flex justify-between items-center mb-4">
-      <h2 className="text-lg font-bold  truncate">{title}</h2>
-      <div className="flex items-center space-x-4">
-        <Link to={link} target="_blank">
-          <IoMdShareAlt
-            size={24}
-            className=" hover:text-blue-500 transition-colors cursor-pointer"
-          />
-        </Link>
-        <MdDelete
-          size={24}
-          className="text-red-500 hover:text-red-600 transition-colors cursor-pointer"
-          onClick={handleDeleteTodo}
-        />
-      </div>
+  <h2 className="text-lg font-bold truncate text-white flex items-center gap-2">
+    {type === "youtube" && <FaYoutube />}
+    {type === "twitter" && <FaTwitter />}
+    {type === "documentation" && <MdArticle />}
+    {type === "notes" && <FaNoteSticky />}
+    {type === "links" && <FaLink />}
+   <span className="font-mono text-sm"> {title}</span>
+  </h2>
+  <div className="flex items-center space-x-4">
+    <Link to={link} target="_blank">
+      <TbMessage2Share
+        size={20}
+        className="transition-colors cursor-pointer text-white"
+      />
+    </Link>
+    <div className=" w-5 h-5 cursor-pointer" onClick={handleDeleteTodo}>
+      <img src={deletebutton} width={25} height={25} />
     </div>
+  </div>
+</div>
   
     {type === "youtube" && (
       <div className="aspect-video rounded-lg overflow-hidden shadow-md">
@@ -87,7 +99,7 @@ export const Card: React.FC<CardProps> = ({ title, link, type, id, onDelete }) =
   
     {type === "twitter" && (
       <div className="w-full">
-        <blockquote className="twitter-tweet border border-gray-200 p-4 rounded-lg bg-gray-50">
+        <blockquote className="twitter-tweet border border-slate-800 p-4 rounded-lg dark:bg-[#1a1625]">
           <a href={link.replace("x.com", "twitter.com")}></a>
         </blockquote>
       </div>
@@ -95,6 +107,7 @@ export const Card: React.FC<CardProps> = ({ title, link, type, id, onDelete }) =
   
     {type === "documentation" && (
       <div className="w-full mt-4">
+        <p className="text-white">{title}</p>
         <a
           href={link}
           target="_blank"
@@ -108,7 +121,7 @@ export const Card: React.FC<CardProps> = ({ title, link, type, id, onDelete }) =
   
     {type === "notes" && (
       <div className="w-full mt-4">
-        <p >{link}</p>
+        <p  className="text-white">{link}</p>
       </div>
     )}
 
@@ -116,7 +129,7 @@ export const Card: React.FC<CardProps> = ({ title, link, type, id, onDelete }) =
 
 {type === "links" && (
       <div className="w-full mt-4">
-        <p  >{link}</p>
+        <p className="text-white" >{link}</p>
       </div>
     )}
   </div>

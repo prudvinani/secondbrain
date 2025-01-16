@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -14,11 +14,9 @@ import { Button } from "../components/ui/button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-interface Props {
-  trigger?: React.ReactNode;
-}
 
-const ShareBrainDialog: React.FC<Props> = ({ trigger }) => {
+
+const ShareBrainDialog= () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [shareLink, setShareLink] = useState<string>("");
@@ -67,13 +65,7 @@ const ShareBrainDialog: React.FC<Props> = ({ trigger }) => {
 
   return (
     <>
-      {trigger ? (
-        React.cloneElement(trigger as React.ReactElement, {
-          onClick: () => {
-            setIsOpen(true);
-          },
-        })
-      ) : (
+     
         <Button
           variant="default"
           onClick={() => {
@@ -82,7 +74,7 @@ const ShareBrainDialog: React.FC<Props> = ({ trigger }) => {
         >
           Share Brain
         </Button>
-      )}
+    
 
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogContent className="w-[370px] md:w-[550px]">

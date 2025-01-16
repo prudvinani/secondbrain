@@ -35,13 +35,13 @@ export const BrainViewer: React.FC = () => {
   }, [shareLink]);
 
   return (
-    <div className="container mx-auto pt-7">
+    <div className="container mx-auto pt-7 bg-gradient-to-b from-gray-900 via-purple-900 to-gray-900">
       {error ? (
         <p className="text-center text-red-500">{error}</p>
       ) : (
         <>
-          <p className="text-center pt-2">
-            Shared by: <span className="font-semibold">{userEmail}</span>
+          <p className="text-center pt-2 text-white font-mono">
+            Shared by: <span className="font-semibold text-white">{userEmail}</span>
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-5 pt-6">
