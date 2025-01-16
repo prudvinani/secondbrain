@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { motion } from 'framer-motion';
-import { Button } from "../components/ui/button";
 import secondbrain from "../../public/brains.png";
 import { FiGithub } from "react-icons/fi";
 import { MdArrowRightAlt } from "react-icons/md";

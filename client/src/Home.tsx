@@ -1,9 +1,9 @@
-import { SidebarDemo } from "./NavbarBar/MainContent";
+import { MainContent } from "./NavbarBar/MainContent";
 
 const Home = () => {
   return (
     <div>
-      <SidebarDemo />
+    <MainContent/>
     </div>
   );
 };

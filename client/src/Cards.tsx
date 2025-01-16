@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { MdDelete } from "react-icons/md";
 import deletebutton from "../public/delete.png"
-import { IoMdShareAlt } from "react-icons/io";
+
 import { TbMessage2Share } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";

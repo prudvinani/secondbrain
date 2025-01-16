@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { FaLink, FaTwitter, FaYoutube } from "react-icons/fa";
 import { FaNoteSticky } from "react-icons/fa6";
-import { IoMdShareAlt } from "react-icons/io";
 import { MdArticle } from "react-icons/md";
 import { TbMessage2Share } from "react-icons/tb";
 
