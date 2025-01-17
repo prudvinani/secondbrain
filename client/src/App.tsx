@@ -16,6 +16,8 @@ import { OriginalYoutube } from "./ContentData/OriginalYoutube";
 import { OriginalArticle } from "./ContentData/OriginalArticle";
 import { OriginalNotes } from "./ContentData/OriginalNotes";
 import { OriginalLinks } from "./ContentData/OriginalLinks";
+import Privacy from "./ContentData/Privacy";
+import Terms from "./ContentData/Terms";
 
 
 const App: React.FC = () => {
@@ -52,6 +54,15 @@ const App: React.FC = () => {
           <Route
             path="/youtube"
             element={<PrivateRoute element={<OriginalYoutube/>} />}
+          />
+           <Route
+            path="/privacy"
+            element={<PublicRoute element={<Privacy/>} />}
+          />
+
+<Route
+            path="/tos"
+            element={<PublicRoute element={<Terms/>} />}
           />
           <Route
             path="/article"
