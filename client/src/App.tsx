@@ -19,7 +19,6 @@ import { OriginalLinks } from "./ContentData/OriginalLinks";
 import Privacy from "./ContentData/Privacy";
 import Terms from "./ContentData/Terms";
 
-
 const App: React.FC = () => {
   const PrivateRoute = ({ element }: { element: JSX.Element }) => {
     const isLoggedin = localStorage.getItem("token") !== null;
@@ -30,56 +29,50 @@ const App: React.FC = () => {
     return isLoggedin ? <Navigate to="/home" /> : element;
   };
   return (
-      <BrowserRouter>
-        <Toaster />
-        <Routes>
-          <Route path="/" element={<PublicRoute element={<Lockdata />} />} />
-          <Route
-            path="/signup"
-            element={<PublicRoute element={<Signup />} />}
-          />
-          <Route
-            path="/login"
-            element={<PublicRoute element={<LoginPage />} />}
-          />
-          <Route
-            path="/home"
-            element={<PrivateRoute element={<MainContent />} />}
-          />
-          <Route
-            path="/tweets"
-            element={<PrivateRoute element={<OriginalTwitter />} />}
-          />
-         
-          <Route
-            path="/youtube"
-            element={<PrivateRoute element={<OriginalYoutube/>} />}
-          />
-           <Route
-            path="/privacy"
-            element={<PublicRoute element={<Privacy/>} />}
-          />
+    <BrowserRouter>
+      <Toaster />
+      <Routes>
+        <Route path="/" element={<PublicRoute element={<Lockdata />} />} />
+        <Route path="/signup" element={<PublicRoute element={<Signup />} />} />
+        <Route
+          path="/login"
+          element={<PublicRoute element={<LoginPage />} />}
+        />
+        <Route
+          path="/home"
+          element={<PrivateRoute element={<MainContent />} />}
+        />
+        <Route
+          path="/tweets"
+          element={<PrivateRoute element={<OriginalTwitter />} />}
+        />
 
-<Route
-            path="/tos"
-            element={<PublicRoute element={<Terms/>} />}
-          />
-          <Route
-            path="/article"
-            element={<PrivateRoute element={<OriginalArticle />} />}
-          />
-          <Route
-            path="/notes"
-            element={<PrivateRoute element={<OriginalNotes />} />}
-          />
-          <Route
-            path="/links"
-            element={<PrivateRoute element={<OriginalLinks />} />}
-          />
-          <Route path="/brain/:shareLink" element={<BrainViewer />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </BrowserRouter>
+        <Route
+          path="/youtube"
+          element={<PrivateRoute element={<OriginalYoutube />} />}
+        />
+        <Route
+          path="/privacy"
+          element={<PublicRoute element={<Privacy />} />}
+        />
+
+        <Route path="/tos" element={<PublicRoute element={<Terms />} />} />
+        <Route
+          path="/article"
+          element={<PrivateRoute element={<OriginalArticle />} />}
+        />
+        <Route
+          path="/notes"
+          element={<PrivateRoute element={<OriginalNotes />} />}
+        />
+        <Route
+          path="/links"
+          element={<PrivateRoute element={<OriginalLinks />} />}
+        />
+        <Route path="/brain/:shareLink" element={<BrainViewer />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
