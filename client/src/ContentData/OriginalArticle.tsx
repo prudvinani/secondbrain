@@ -372,7 +372,7 @@ const Dashboard = () => {
                       {!shareLink && (
                         <AlertDialogAction
                           onClick={handleShare}
-                          className="bg-[#5E43EC] hover:bg-[#4930c9] text-gray-100"
+                          className="bg-[#5E43EC] hover:bg-[#4930c9] text-gray-100 "
                         >
                           <FaPaste /> Generate Share Link
                         </AlertDialogAction>
